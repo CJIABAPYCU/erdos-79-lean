@@ -106,4 +106,34 @@ lemma exists_avoid {p : ℝ} (hp0 : 0 ≤ p) (hp1 : p ≤ 1) (E : Finset β)
     sum_congr rfl fun j hj => sum_wt_disjoint p (hT j hj)] at this
   linarith
 
+/-- `𝔼|A| = p |E|`. -/
+lemma sum_wt_mul_card (p : ℝ) (E : Finset β) :
+    ∑ A ∈ E.powerset, wt p E A * A.card = p * E.card := by
+  have h : ∀ A ∈ E.powerset,
+      wt p E A * (A.card : ℝ) = ∑ e ∈ E, (if {e} ⊆ A then wt p E A else 0) := by
+    intro A hA
+    rw [sum_ite, sum_const_zero, add_zero, sum_const, nsmul_eq_mul, mul_comm]
+    congr 2
+    rw [filter_congr fun e _ => singleton_subset_iff, filter_mem_eq_inter,
+      inter_eq_right.mpr (mem_powerset.mp hA)]
+  rw [sum_congr rfl h, sum_comm,
+    sum_congr rfl fun e he => sum_wt_superset p (singleton_subset_iff.mpr he)]
+  simp [mul_comm]
+
+/-- **Averaging.** If `𝔼 X ≥ m` (and `p > 0`), some outcome has `X ≥ m`. -/
+lemma exists_ge {p : ℝ} (hp0 : 0 < p) (hp1 : p ≤ 1) (E : Finset β) (X : Finset β → ℝ) (m : ℝ)
+    (h : m ≤ ∑ A ∈ E.powerset, wt p E A * X A) : ∃ A ⊆ E, m ≤ X A := by
+  by_contra hcon
+  push Not at hcon
+  have hlt : ∑ A ∈ E.powerset, wt p E A * X A < ∑ A ∈ E.powerset, wt p E A * m := by
+    apply sum_lt_sum
+    · intro A hA
+      exact mul_le_mul_of_nonneg_left (hcon A (mem_powerset.mp hA)).le
+        (wt_nonneg hp0.le hp1 E A)
+    · refine ⟨E, mem_powerset_self E, mul_lt_mul_of_pos_left (hcon E subset_rfl) ?_⟩
+      rw [wt, sdiff_self]
+      exact mul_pos (pow_pos hp0 _) (by simp)
+  rw [← sum_mul, sum_wt, one_mul] at hlt
+  linarith
+
 end Erdos79Proof

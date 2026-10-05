@@ -3,6 +3,7 @@ import Mathlib.Combinatorics.SimpleGraph.Acyclic
 import Mathlib.Combinatorics.SimpleGraph.Girth
 import Erdos79.Forest
 import Erdos79.Dense
+import Erdos79.Girth
 
 /-!
 # Erdős Problem 79 — ingredients
@@ -47,7 +48,7 @@ theorem not_isRamseySizeLinear_of_dense {α : Type*} [Fintype α] [Nonempty α]
 five times as many edges as vertices. -/
 theorem exists_large_girth_dense (g : ℕ) :
     ∃ (m : ℕ) (_ : 0 < m) (G : SimpleGraph (Fin m)),
-      (g : ℕ∞) ≤ G.egirth ∧ 5 * m ≤ G.edgeSet.ncard := by
-  sorry
+      (g : ℕ∞) ≤ G.egirth ∧ 5 * m ≤ G.edgeSet.ncard :=
+  exists_large_girth_dense' g
 
 end Erdos79Proof
