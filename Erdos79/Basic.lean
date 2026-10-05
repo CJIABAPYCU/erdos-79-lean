@@ -2,6 +2,7 @@ import FormalConjecturesForMathlib.Combinatorics.SimpleGraph.Ramsey
 import Mathlib.Combinatorics.SimpleGraph.Acyclic
 import Mathlib.Combinatorics.SimpleGraph.Girth
 import Erdos79.Forest
+import Erdos79.Dense
 
 /-!
 # Erdős Problem 79 — ingredients
@@ -39,8 +40,8 @@ theorem isRamseySizeLinear_of_isAcyclic {α : Type*} [Fintype α] {F : SimpleGra
 Ramsey size-linear. -/
 theorem not_isRamseySizeLinear_of_dense {α : Type*} [Fintype α] [Nonempty α]
     (G : SimpleGraph α) (h : 5 * Fintype.card α ≤ G.edgeSet.ncard) :
-    ¬ G.IsRamseySizeLinear := by
-  sorry
+    ¬ G.IsRamseySizeLinear :=
+  not_isRamseySizeLinear_of_dense' G h
 
 /-- For every `g` there is a nonempty finite graph of girth at least `g` with at least
 five times as many edges as vertices. -/
