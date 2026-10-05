@@ -37,15 +37,15 @@ theorem isRamseySizeLinear_of_isAcyclic {α : Type*} [Fintype α] {F : SimpleGra
 /-- A nonempty graph with at least five times as many edges as vertices is not
 Ramsey size-linear. -/
 theorem not_isRamseySizeLinear_of_dense {α : Type*} [Fintype α] [Nonempty α]
-    (G : SimpleGraph α) [DecidableRel G.Adj]
-    (h : 5 * Fintype.card α ≤ G.edgeFinset.card) : ¬ G.IsRamseySizeLinear := by
+    (G : SimpleGraph α) (h : 5 * Fintype.card α ≤ G.edgeSet.ncard) :
+    ¬ G.IsRamseySizeLinear := by
   sorry
 
 /-- For every `g` there is a nonempty finite graph of girth at least `g` with at least
 five times as many edges as vertices. -/
 theorem exists_large_girth_dense (g : ℕ) :
-    ∃ (m : ℕ) (_ : 0 < m) (G : SimpleGraph (Fin m)) (_ : DecidableRel G.Adj),
-      (g : ℕ∞) ≤ G.egirth ∧ 5 * m ≤ G.edgeFinset.card := by
+    ∃ (m : ℕ) (_ : 0 < m) (G : SimpleGraph (Fin m)),
+      (g : ℕ∞) ≤ G.egirth ∧ 5 * m ≤ G.edgeSet.ncard := by
   sorry
 
 end Erdos79Proof
