@@ -1,6 +1,7 @@
 import FormalConjecturesForMathlib.Combinatorics.SimpleGraph.Ramsey
 import Mathlib.Combinatorics.SimpleGraph.Acyclic
 import Mathlib.Combinatorics.SimpleGraph.Girth
+import Erdos79.Forest
 
 /-!
 # Erdős Problem 79 — ingredients
@@ -31,8 +32,8 @@ theorem IsRamseySizeLinear.of_iso {α β : Type*} [Fintype α] [Fintype β]
 
 /-- Every finite forest is Ramsey size-linear. -/
 theorem isRamseySizeLinear_of_isAcyclic {α : Type*} [Fintype α] {F : SimpleGraph α}
-    (hF : F.IsAcyclic) : F.IsRamseySizeLinear := by
-  sorry
+    (hF : F.IsAcyclic) : F.IsRamseySizeLinear :=
+  isRamseySizeLinear_of_isAcyclic' hF
 
 /-- A nonempty graph with at least five times as many edges as vertices is not
 Ramsey size-linear. -/
